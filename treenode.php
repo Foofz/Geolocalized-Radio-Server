@@ -1,14 +1,14 @@
 <?php
 
 class TreeNode {
-	protected $position;
+	protected $hotSpot;
 	protected $leftChild;
 	protected $rightChild;
 	protected $axis;
 	protected $visited = false;
 
-	public function getPosition(){
-		return $this->position;
+	public function getHotSpot(){
+		return $this->hotSpot;
 	}
 
 	public function getLeftChild(){
@@ -27,8 +27,8 @@ class TreeNode {
 		return $this->visited;
 	}
 
-	public function setPosition($position){
-		$this->position = $position;
+	public function setHotSpot($hotSpot){
+		$this->hotSpot = $hotSpot;
 	}
 
 	public function setLeftChild($leftChild){

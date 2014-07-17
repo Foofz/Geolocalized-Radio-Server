@@ -1,13 +1,13 @@
 <?php
 
-function kdtree ($posArray, $depth) {
+function kdtree ($hotSpotArray, $depth) {
 
 	// Select axis based on depth so that axis cycles through all valid values
 	$axis = $depth%2;
 
-	if (count($posArray) == 1){
+	if (count($hotSpotArray) == 1){
 		$node = new TreeNode;
-		$node->setPosition($posArray[0]);
+		$node->setHotSpot($hotSpotArray[0]);
 		$node ->setLeftChild(NULL);
 		$node ->setRightChild(NULL);
 		$node ->setAxis($axis);
@@ -16,22 +16,22 @@ function kdtree ($posArray, $depth) {
 	
 	// Sort point list and choose median as pivot element
 	if ($axis == 0) {
-		usort($posArray, "compareX");
+		usort($hotSpotArray, "compareX");
 	}
 
 	else {
-		usort($posArray, "compareY");
+		usort($hotSpotArray, "compareY");
 	}
 
-	$medianIndex = (count($posArray)%2==0?count($posArray)/2 - 1:(count($posArray)-1)/2);
+	$medianIndex = (count($hotSpotArray)%2==0?count($hotSpotArray)/2 - 1:(count($hotSpotArray)-1)/2);
 
-	$median = $posArray[$medianIndex];
+	$median = $hotSpotArray[$medianIndex];
 
 	//var_dump($median);
 
 	// Create node and construct subtrees
 	$node = new TreeNode;
-	$node->setPosition($median);
+	$node->setHotSpot($median);
 	$node ->setAxis($axis);
 
 	//var_dump($node);
@@ -39,9 +39,9 @@ function kdtree ($posArray, $depth) {
 		$node->setLeftChild(NULL);
 	}
 	else {
-		$node->setLeftChild(kdtree(array_subset($posArray, 0, $medianIndex - 1), $depth+1));
+		$node->setLeftChild(kdtree(array_subset($hotSpotArray, 0, $medianIndex - 1), $depth+1));
 	}
-	$node->setRightChild(kdtree(array_subset($posArray, $medianIndex + 1, count($posArray) - 1), $depth+1));
+	$node->setRightChild(kdtree(array_subset($hotSpotArray, $medianIndex + 1, count($hotSpotArray) - 1), $depth+1));
 	return $node;
 
 }
@@ -61,7 +61,7 @@ function nearestNeighborSearch($queryPoint, $treeNode){
 	if (!$treeNode->isVisited()){
 		//Check whether to recurse on left subtree or right
 		$queryPointAxisValue = ($treeNode->getAxis()==0?$queryPoint->getX():$queryPoint->getY());
-		$nodeAxisValue = ($treeNode->getAxis()==0?$treeNode->getPosition()->getX():$treeNode->getPosition()->getY());
+		$nodeAxisValue = ($treeNode->getAxis()==0?$treeNode->getHotSpot()->getX():$treeNode->getHotSpot()->getY());
 
 		//Search left subtree
 		if ($queryPointAxisValue < $nodeAxisValue){
@@ -71,7 +71,7 @@ function nearestNeighborSearch($queryPoint, $treeNode){
 				}
 				else {
 					$nearestNeighbor = $treeNode;
-					$nnDistanceSquared = pow(($queryPoint->getX() - $treeNode->getPosition()->getX()),2) + pow(($queryPoint->getY() - $treeNode->getPosition()->getY()),2);
+					$nnDistanceSquared = pow(($queryPoint->getX() - $treeNode->getHotSpot()->getX()),2) + pow(($queryPoint->getY() - $treeNode->getHotSpot()->getY()),2);
 					$checkNode = false;
 				}
 		}
@@ -83,17 +83,17 @@ function nearestNeighborSearch($queryPoint, $treeNode){
 				}
 				else {
 					$nearestNeighbor = $treeNode;
-					$nnDistanceSquared = pow(($queryPoint->getX() - $treeNode->getPosition()->getX()),2) + pow(($queryPoint->getY() - $treeNode->getPosition()->getY()),2);
+					$nnDistanceSquared = pow(($queryPoint->getX() - $treeNode->getHotSpot()->getX()),2) + pow(($queryPoint->getY() - $treeNode->getHotSpot()->getY()),2);
 					$checkNode = false;
 				}
 		}
 
 		if ($checkNode){
 			//Compute the squared distance
-			$nnDistanceSquared = pow(($queryPoint->getX() - $nearestNeighbor->getPosition()->getX()),2) + pow(($queryPoint->getY() - $nearestNeighbor->getPosition()->getY()),2);
+			$nnDistanceSquared = pow(($queryPoint->getX() - $nearestNeighbor->getHotSpot()->getX()),2) + pow(($queryPoint->getY() - $nearestNeighbor->getHotSpot()->getY()),2);
 
 			//Check if the current node is close
-			$nodeDistanceSquared = pow(($queryPoint->getX() - $treeNode->getPosition()->getX()),2) + pow(($queryPoint->getY() - $treeNode->getPosition()->getY()),2);
+			$nodeDistanceSquared = pow(($queryPoint->getX() - $treeNode->getHotSpot()->getX()),2) + pow(($queryPoint->getY() - $treeNode->getHotSpot()->getY()),2);
 
 			if ($nodeDistanceSquared < $nnDistanceSquared){
 				$nearestNeighbor = $treeNode;
@@ -102,7 +102,7 @@ function nearestNeighborSearch($queryPoint, $treeNode){
 		}
 
 		//Check whether need to check unvisited subtree
-		$distanceToPlaneSquared = ($treeNode->getAxis()==0?pow($queryPoint->getX() - $treeNode->getPosition()->getX(),2):pow($queryPoint->getY() - $treeNode->getPosition()->getY(),2));
+		$distanceToPlaneSquared = ($treeNode->getAxis()==0?pow($queryPoint->getX() - $treeNode->getHotSpot()->getX(),2):pow($queryPoint->getY() - $treeNode->getHotSpot()->getY(),2));
 		if ($distanceToPlaneSquared < $nnDistanceSquared){
 			//Visit left subtree
 			if (!is_null($treeNode->getLeftChild()) && !$treeNode->getLeftChild()->isVisited()){
@@ -113,7 +113,7 @@ function nearestNeighborSearch($queryPoint, $treeNode){
 			}
 
 			//Check whether potential nn is indeed an nn
-			$distanceToPotNnSquared = pow(($queryPoint->getX() - $potentialNn->getPosition()->getX()),2) + pow(($queryPoint->getY() - $potentialNn->getPosition()->getY()),2);
+			$distanceToPotNnSquared = pow(($queryPoint->getX() - $potentialNn->getHotSpot()->getX()),2) + pow(($queryPoint->getY() - $potentialNn->getHotSpot()->getY()),2);
 
 			if ($distanceToPotNnSquared < $nnDistanceSquared){
 				$nearestNeighbor = $potentialNn;
