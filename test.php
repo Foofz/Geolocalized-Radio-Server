@@ -81,35 +81,35 @@ echo "{";
 
 if ($distanceToNn < 0.1) {
 	echo '"nearest_hotspot" : "' . $nearestNeighbor->getHotSpot()->getName() . '",';
-	echo "\"lat\" : \"" . $nearestNeighbor->getHotSpot()->getLat() . "\",";
-	echo "\"lng\" : \"" . $nearestNeighbor->getHotSpot()->getLong() . "\",";
-	echo "\"hotspot_radius\" : \"" . 100 . "\",";
+	echo "\"lat\" : " . $nearestNeighbor->getHotSpot()->getLat() . ",";
+	echo "\"lng\" : " . $nearestNeighbor->getHotSpot()->getLong() . ",";
+	echo "\"hotspot_radius\" : " . 100 . ",";
 	echo '"message" : "' . $nearestNeighbor->getHotSpot()->getMessage() . '",';
 	echo "\"status\" : \"true\",";
 
 	//Rerouting:
-	echo '"reroute":"true",';
-	echo '"lats":"[37.778413, 37.785435, 37.786791]",';
-	echo '"lngs":"[-122.415149, -122.416222, -122.404764]",';
+	echo '"reroute": "true",';
+	echo '"lats": [37.778413, 37.785435, 37.786791],';
+	echo '"lngs": [-122.415149, -122.416222, -122.404764],';
 	
 	//Testing purposes:
-	echo "\"server_distance\" : \"" . $distanceToNn . "\"";
+	echo "\"server_distance\" : " . $distanceToNn;
 }
 
 else {
 	echo '"nearest_hotspot" : "' . $nearestNeighbor->getHotSpot()->getName() . '",';
-	echo "\"lat\" : \"0.0\",";
-	echo "\"lng\" : \"0.0\",";
-	echo "\"hotspot_radius\" : \"0.0\",";
+	echo "\"lat\" : 0.0,";
+	echo "\"lng\" : 0.0,";
+	echo "\"hotspot_radius\" : 0.0,";
 	echo "\"status\" : \"false\",";
 	
 	//Rerouting:
-	echo '"reroute":"false",';
-	echo '"lats":"[]",';
-	echo '"lngs":"[]",';
+	echo '"reroute": "false",';
+	echo '"lats": [],';
+	echo '"lngs": [],';
 	
 	//Testing purposes:
-	echo "\"server_distance\" : \"" . $distanceToNn . "\"";
+	echo "\"server_distance\" : " . $distanceToNn;
 }
 
 //End JSON response:
