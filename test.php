@@ -65,13 +65,48 @@ $pos9->setName("Victoria's Secret");
 $pos9->setMessage("Get the finest perfumes from Victoria's Secret!");
 $pos9->setType(HotSpot::HOTSPOT_TYPE_AD);
 
+//TRAFFIC near RadioShack
+$pos10 = new HotSpot(37.863814, -122.267704, false);
+$pos10->setName("Traffic");
+$pos10->setMessage("Traffic jam up ahead!");
+$pos10->setType(HotSpot::HOTSPOT_TYPE_TRAFFIC);
+
+//Berkeley Hundea
+$pos11 = new HotSpot(37.861612, -122.267533, false);
+$pos11->setName("Berkeley Hunda");
+$pos11->setMessage("You are listening to a Berkeley Hunda advertisement!");
+$pos11->setType(HotSpot::HOTSPOT_TYPE_AD);
+
+//TRAFFIC near intersection with Market st.
+$pos12 = new HotSpot(37.844284, -122.275320, false);
+$pos12->setName("Traffic");
+$pos12->setMessage("Car accident up ahead!");
+$pos12->setType(HotSpot::HOTSPOT_TYPE_TRAFFIC);
+
+//Grease Box
+$pos13 = new HotSpot(37.843747, -122.276809, false);
+$pos13->setName("Grease Box");
+$pos13->setMessage("You are listening to a Grease Box advertisement!");
+$pos13->setType(HotSpot::HOTSPOT_TYPE_AD);
+
+//TRAFFIC before intersection
+$pos14 = new HotSpot(37.83566, -122.281479, false);
+$pos14->setName("Traffic");
+$pos14->setMessage("Congestion up ahead!");
+$pos14->setType(HotSpot::HOTSPOT_TYPE_TRAFFIC);
+
+//Quarter Pound Giant Burger
+$pos15 = new HotSpot(37.837555, -122.282293, false);
+$pos15->setName("Quarter Pound Giant Burger");
+$pos15->setMessage("You are listening to a Quarter Pound Giant Burger advertisement!");
+$pos15->setType(HotSpot::HOTSPOT_TYPE_AD);
+
 //$posArray = array($pos1, $pos2, $pos3, $pos4, $pos5, $pos6);
-$posArray = array($pos7, $pos8, $pos9);
+$posArray = array($pos7, $pos8, $pos9, $pos10, $pos11, $pos12, $pos13, $pos14, $pos15);
 
 $kdtree = kdtree($posArray, 0);
 
 $s = serialize($kdtree);
-
 
 $nearestNeighbor = nearestNeighborSearch($queryPoint, $kdtree);
 $distanceToNn = pow(pow($nearestNeighbor->getHotSpot()->getX() - $queryPoint->getX(), 2) + pow($nearestNeighbor->getHotSpot()->getY() - $queryPoint->getY(), 2), 0.5);
@@ -85,8 +120,14 @@ if ($distanceToNn < 0.1) {
 	echo "\"lng\" : " . $nearestNeighbor->getHotSpot()->getLong() . ",";
 	echo "\"hotspot_radius\" : " . 100 . ",";
 	echo '"message" : "' . $nearestNeighbor->getHotSpot()->getMessage() . '",';
-	echo "\"status\" : \"true\",";
+	if ($nearestNeighbor->getHotSpot()->getType() == HotSpot::HOTSPOT_TYPE_TRAFFIC){
+		echo "\"status\" : \"hotspot\",";
+	}
 
+	else {
+		echo "\"status\" : \"ads\",";
+	}
+	
 	//Rerouting:
 	echo '"reroute": "true",';
 	echo '"lats": [37.778413, 37.785435, 37.786791],';
