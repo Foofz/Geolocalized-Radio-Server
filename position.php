@@ -7,6 +7,8 @@ class Position {
     protected $long;
     //protected $z;
 
+    const EARTH_RADIUS = 6371.0;
+
     function __construct() {
         $a = func_get_args(); 
         $i = func_num_args(); 
@@ -30,6 +32,17 @@ class Position {
     { 
         $this->x = $x;
         $this->y = $y;
+
+        $this->long = rad2deg(atan2($y, $x));
+
+        /****** NOTE! *******
+
+        Due to insufficient info, namely the sine of the lat, the below formula
+        always returns a positive lat, whereas in fact it could be negative. However,
+        since we always just use the cosine of the lat, it doesn't matter for our purposes.
+
+        */
+        $this->lat = rad2deg(acos($x/(cos(deg2rad($this->long))*Position::EARTH_RADIUS)));
     } 
     
     function __construct3($a1,$a2,$isCartesian) 
@@ -37,12 +50,23 @@ class Position {
         if ($isCartesian){
             $this->x = $a1;
             $this->y = $a2;
+
+            $this->long = rad2deg(atan2($y, $x));
+
+            /****** NOTE! *******
+
+            Due to insufficient info, namely the sine of the lat, the below formula
+            always returns a positive lat, whereas in fact it could be negative. However,
+            since we always just use the cosine of the lat, it doesn't matter for our purposes.
+
+            */
+            $this->lat = rad2deg($x/(cos(deg2rad($this->long))*Position::EARTH_RADIUS));
         }
 
         else {
-            $earthRadius = 6371.0;
-            $this->x = cos(deg2rad($a1)) * cos(deg2rad($a2)) * $earthRadius;
-            $this->y = cos(deg2rad($a1)) * sin(deg2rad($a2)) * $earthRadius;
+            $this->x = cos(deg2rad($a1)) * cos(deg2rad($a2)) * Position::EARTH_RADIUS;
+            $this->y = cos(deg2rad($a1)) * sin(deg2rad($a2)) * Position::EARTH_RADIUS;
+
             $this->lat = $a1;
             $this->long = $a2;
         }
