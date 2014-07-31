@@ -26,6 +26,8 @@ $pos6 = new HotSpot(7,2);*/
 //Cory Hall:
 $pos1 = new HotSpot(37.875473, -122.257271, false);
 $pos1->setName("Cory Hall");
+$pos1->setMessage("Traffic jam up ahead!");
+$pos1->setType(HotSpot::HOTSPOT_TYPE_TRAFFIC);
 
 //Ihouse:
 $pos2 = new HotSpot(37.869525, -122.252152, false);
@@ -147,7 +149,7 @@ $pos22->setType(HotSpot::HOTSPOT_TYPE_AD);
 
 
 //$posArray = array($pos1, $pos2, $pos3, $pos4, $pos5, $pos6);
-$posArray = array($pos2, $pos7, $pos8, $pos9, $pos10, $pos11, $pos12, $pos13, $pos14, $pos15, $pos16, $pos17, $pos18, $pos19, $pos20, $pos21, $pos22);
+$posArray = array($pos1, $pos2, $pos7, $pos8, $pos9, $pos10, $pos11, $pos12, $pos13, $pos14, $pos15, $pos16, $pos17, $pos18, $pos19, $pos20, $pos21, $pos22);
 
 $kdtree = kdtree($posArray, 0);
 
