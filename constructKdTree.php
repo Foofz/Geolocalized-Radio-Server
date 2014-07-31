@@ -1,7 +1,10 @@
 <?php
 
-include "position.php";
-include "hotspot.php";
+require("utils.php");
+require("position.php");
+require("treenode.php");
+require("kdtree_utils.php");
+require("hotspot.php");
 
 //Connect to the database:
 $db = new PDO("mysql:dbname=hotspots;host=localhost","root","");
@@ -28,5 +31,11 @@ while ($result = $rows->fetch()){
 
 	$i++;
 }
+
+$kdtree = kdtree($hotSpots, 0);
+
+$s = serialize($kdtree);
+
+file_put_contents("kdtree.txt", $s);
 
 ?>
