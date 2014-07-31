@@ -36,6 +36,6 @@ $kdtree = kdtree($hotSpots, 0);
 
 $s = serialize($kdtree);
 
-file_put_contents("kdtree.txt", $s);
+file_put_contents("kdtree", $s);
 
 ?>
