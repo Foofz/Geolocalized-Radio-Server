@@ -49,4 +49,6 @@ mysqli_stmt_execute($stmt);
 //Reconstruct the kd-tree:
 require("constructKdTree.php");
 
+echo "OK";
+
 ?>
