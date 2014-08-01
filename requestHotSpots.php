@@ -28,7 +28,7 @@ while ($result = $rows->fetch()){
 	echo '"type": ' . $result["type"] . ',';
 	echo '"message": "' . $result["message"] . '",';
 	echo '"lat": ' . $result["lat"] . ',';
-	echo '"long": ' . $result["long"];
+	echo '"long": ' . $result["lng"];
 
 	echo '}';
 	

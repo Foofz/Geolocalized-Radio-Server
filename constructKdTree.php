@@ -17,7 +17,7 @@ $hotSpots = [];
 $i = 0;
 
 while ($result = $rows->fetch()){
-	$hotSpots[$i] = new HotSpot($result["lat"], $result["long"], false);
+	$hotSpots[$i] = new HotSpot($result["lat"], $result["lng"], false);
 	$hotSpots[$i]->setName($result["name"]);
 	$hotSpots[$i]->setMessage($result["message"]);
 
