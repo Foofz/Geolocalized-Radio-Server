@@ -41,8 +41,8 @@ if ($distanceToNn < 0.1) {
 	
 	//Rerouting:
 	echo '"reroute": "true",';
-	echo '"lats": [37.778413, 37.785435, 37.786791],';
-	echo '"lngs": [-122.415149, -122.416222, -122.404764],';
+	echo '"lats": [' . implode(",", $nearestNeighbor->getHotSpot()->getRerouteLats()) . '],';
+	echo '"lngs": [' . implode(",", $nearestNeighbor->getHotSpot()->getRerouteLngs()) . '],';
 	
 	//Testing purposes:
 	echo "\"server_distance\" : " . $distanceToNn;

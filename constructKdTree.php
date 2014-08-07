@@ -29,6 +29,9 @@ while ($result = $rows->fetch()){
 		$hotSpots[$i]->setType(HotSpot::HOTSPOT_TYPE_AD);
 	}
 
+	$hotSpots[$i]->setRerouteLats(explode(",", $result["rerouteLats"]));
+	$hotSpots[$i]->setRerouteLngs(explode(",", $result["rerouteLngs"]));
+
 	$i++;
 }
 

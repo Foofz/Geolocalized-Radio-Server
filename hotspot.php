@@ -8,6 +8,9 @@ class HotSpot extends Position {
 	protected $message;
 	protected $type;
 
+    protected $rerouteLats;
+    protected $rerouteLngs;
+
 	function __construct() {
         $a = func_get_args(); 
         $i = func_num_args(); 
@@ -25,6 +28,9 @@ class HotSpot extends Position {
         $this->name = "";
         $this->message = "";
         $this->type = -1;
+
+        $this->rerouteLats = [];
+        $this->rerouteLngs = [];
     }
 
     function __construct2($x, $y){
@@ -33,6 +39,9 @@ class HotSpot extends Position {
     	$this->name = "";
         $this->message = "";
         $this->type = -1;
+
+        $this->rerouteLats = [];
+        $this->rerouteLngs = [];
     }
 
     function __construct3($a1, $a2, $isCartesian){ 
@@ -41,6 +50,9 @@ class HotSpot extends Position {
     	$this->name = "";
         $this->message = "";
         $this->type = -1;
+
+        $this->rerouteLats = [];
+        $this->rerouteLngs = [];
     }
 
     function __construct5($x, $y, $name, $message, $type){
@@ -49,6 +61,9 @@ class HotSpot extends Position {
         $this->name = $name;
         $this->message = $message;
         $this->type = $type;
+
+        $this->rerouteLats = [];
+        $this->rerouteLngs = [];
     }
 
     function __construct6($a1, $a2, $isCartesian, $name, $message, $type){
@@ -57,6 +72,9 @@ class HotSpot extends Position {
         $this->name = $name;
         $this->message = $message;
         $this->type = $type;
+
+        $this->rerouteLats = [];
+        $this->rerouteLngs = [];
     }
 
     function getName(){
@@ -71,6 +89,14 @@ class HotSpot extends Position {
         return $this->type;
     }
 
+    function getRerouteLats(){
+        return $this->rerouteLats;
+    }
+
+    function getRerouteLngs(){
+        return $this->rerouteLngs;
+    }
+
     function setName($name){
         $this->name = $name;
     }
@@ -81,6 +107,14 @@ class HotSpot extends Position {
 
     function setType($type){
         $this->type = $type;
+    }
+
+    function setRerouteLats($rerouteLats){
+        $this->rerouteLats = $rerouteLats;
+    }
+
+    function setRerouteLngs($rerouteLngs){
+        $this->rerouteLngs = $rerouteLngs;
     }
 }
 
